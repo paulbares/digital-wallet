@@ -1,7 +1,6 @@
 package com.digital.wallet;
 
 import com.digital.wallet.config.ApplicationProperties;
-import com.digital.wallet.config.CRLFLogConverter;
 import jakarta.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -86,7 +85,6 @@ public class DigitalWalletApp {
             log.warn("The host name could not be determined, using `localhost` as fallback");
         }
         log.info(
-            CRLFLogConverter.CRLF_SAFE_MARKER,
             """
 
             ----------------------------------------------------------
