@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @IntegrationTest
 @Transactional
-class TestDigitalWalletService {
+class DigitalWalletServiceIntTest {
 
     private static final String currency = "GBP";
 
