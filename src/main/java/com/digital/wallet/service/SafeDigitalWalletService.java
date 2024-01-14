@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Qualifier("SafeDigitalWalletService")
-public class SafeDigitalWalletServiceImpl implements DigitalWalletService {
+public class SafeDigitalWalletService implements DigitalWalletService {
 
     private final Striped<Lock> sync = Striped.lazyWeakLock(32); // This value is subject to be modified it any contention is observed.
 
-    private final DigitalWalletServiceImpl underlying;
+    private final DigitalWalletServiceInternal underlying;
 
-    public SafeDigitalWalletServiceImpl(DigitalWalletServiceImpl underlying) {
+    public SafeDigitalWalletService(DigitalWalletServiceInternal underlying) {
         this.underlying = underlying;
     }
 

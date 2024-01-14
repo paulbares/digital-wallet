@@ -12,13 +12,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * An internal implementation of {@link DigitalWalletService} that is not meant to be used directly because it does not
+ * prevent from concurrent operations on the same account.
+ */
 @Service
-public class DigitalWalletServiceImpl implements DigitalWalletService {
+public class DigitalWalletServiceInternal implements DigitalWalletService {
 
     private final WalletAccountRepository accountRepository;
     private final WalletTransactionRepository transactionRepository;
 
-    public DigitalWalletServiceImpl(WalletAccountRepository accountRepository, WalletTransactionRepository transactionRepository) {
+    public DigitalWalletServiceInternal(WalletAccountRepository accountRepository, WalletTransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
     }
