@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -153,6 +154,31 @@ class TestDigitalWalletService {
         // Account value should be the same
         checkWalletAccount(paulId, amount);
         Assertions.assertThat(transactions.getSize()).isEqualTo(1);
+    }
+
+    @Test
+    void testTransactionPagination() {
+        // Create several trxs and try to fetch them
+        int nbOfTrx = 100;
+        for (int i = 0; i < nbOfTrx; i++) {
+            BigDecimal amount = MINIMUM_DEPOSIT.add(new BigDecimal(i));
+            this.digitalWalletService.executeDeposit(paulId, currency, amount, "");
+        }
+        // Fetch all trxs
+        Page<WalletTransaction> unpagedTrxs = this.digitalWalletService.getTransactions(paulId, Pageable.unpaged());
+        Assertions.assertThat(unpagedTrxs.getSize()).isEqualTo(nbOfTrx);
+
+        int pageSize = 10;
+        int i = 0;
+        for (int page = 0; page < pageSize; page++) {
+            Page<WalletTransaction> paginatedTrxs = this.digitalWalletService.getTransactions(paulId, PageRequest.of(page, pageSize));
+            Assertions.assertThat(paginatedTrxs.getSize()).isEqualTo(pageSize);
+            Iterator<WalletTransaction> iterator = paginatedTrxs.iterator();
+            while (iterator.hasNext()) {
+                checkWalletTransaction(iterator.next(), paulId, MINIMUM_DEPOSIT.add(new BigDecimal(i)), TransactionType.CREDIT);
+                i++;
+            }
+        }
     }
 
     private void checkWalletAccount(Long customerId, BigDecimal amount) {

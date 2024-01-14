@@ -1,5 +1,7 @@
 package com.digital.wallet.service;
 
+import static com.digital.wallet.config.Constants.*;
+
 import com.digital.wallet.domain.TransactionType;
 import com.digital.wallet.domain.WalletTransaction;
 import com.digital.wallet.repository.WalletAccountRepository;
