@@ -1,5 +1,7 @@
 package com.digital.wallet.service;
 
+import static com.digital.wallet.config.Constants.*;
+
 import com.digital.wallet.IntegrationTest;
 import com.digital.wallet.domain.TransactionType;
 import com.digital.wallet.domain.WalletAccount;
@@ -17,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Integration tests for {@link UserService}.
+ * Integration tests for {@link DigitalWalletService}.
  */
 @IntegrationTest
 @Transactional
@@ -90,12 +92,7 @@ class TestDigitalWalletService {
     void testDepositBounds() {
         Assertions
             .assertThatThrownBy(() ->
-                this.digitalWalletService.executeDeposit(
-                        paulId,
-                        currency,
-                        DigitalWalletService.MINIMUM_DEPOSIT.subtract(new BigDecimal(1)),
-                        "my first deposit"
-                    )
+                this.digitalWalletService.executeDeposit(paulId, currency, MINIMUM_DEPOSIT.subtract(new BigDecimal(1)), "my first deposit")
             )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("Minimum deposit allowed is 10");
@@ -105,12 +102,7 @@ class TestDigitalWalletService {
 
         Assertions
             .assertThatThrownBy(() ->
-                this.digitalWalletService.executeDeposit(
-                        paulId,
-                        currency,
-                        DigitalWalletService.MAXIMUM_DEPOSIT.add(new BigDecimal(1)),
-                        "my first deposit"
-                    )
+                this.digitalWalletService.executeDeposit(paulId, currency, MAXIMUM_DEPOSIT.add(new BigDecimal(1)), "my first deposit")
             )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("Maximum deposit allowed is 10000");
@@ -127,12 +119,7 @@ class TestDigitalWalletService {
 
         Assertions
             .assertThatThrownBy(() ->
-                this.digitalWalletService.executeWithdrawal(
-                        paulId,
-                        currency,
-                        DigitalWalletService.MAXIMUM_WITHDRAWAL.add(new BigDecimal(1)),
-                        ""
-                    )
+                this.digitalWalletService.executeWithdrawal(paulId, currency, MAXIMUM_WITHDRAWAL.add(new BigDecimal(1)), "")
             )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("Maximum withdrawal allowed is 5000");

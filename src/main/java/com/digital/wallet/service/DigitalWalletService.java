@@ -6,10 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface DigitalWalletService {
-    BigDecimal MAXIMUM_DEPOSIT = BigDecimal.valueOf(10_000);
-    BigDecimal MAXIMUM_WITHDRAWAL = BigDecimal.valueOf(5_000);
-    BigDecimal MINIMUM_DEPOSIT = BigDecimal.valueOf(10);
-
     /**
      * Executes a deposit for a customer in the digital wallet.
      *

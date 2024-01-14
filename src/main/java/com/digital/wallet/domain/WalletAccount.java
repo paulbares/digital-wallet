@@ -4,12 +4,9 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "wallet_account")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class WalletAccount extends AbstractAuditingEntity<Long> implements Serializable {
 
     @Version // for enabling optimistic locking
