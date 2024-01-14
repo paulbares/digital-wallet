@@ -21,12 +21,6 @@ public class WalletAccount extends AbstractAuditingEntity<Long> implements Seria
     private Long id;
 
     /**
-     * The owner of the account
-     */
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    /**
      * The amount of money available.
      */
     @Column(name = "amount", nullable = false)
@@ -55,14 +49,6 @@ public class WalletAccount extends AbstractAuditingEntity<Long> implements Seria
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
@@ -87,7 +73,6 @@ public class WalletAccount extends AbstractAuditingEntity<Long> implements Seria
         return (
             Objects.equals(version, that.version) &&
             Objects.equals(id, that.id) &&
-            Objects.equals(userId, that.userId) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(currencyCode, that.currencyCode)
         );
@@ -95,7 +80,7 @@ public class WalletAccount extends AbstractAuditingEntity<Long> implements Seria
 
     @Override
     public int hashCode() {
-        return Objects.hash(version, id, userId, amount, currencyCode);
+        return Objects.hash(version, id, amount, currencyCode);
     }
 
     @Override
@@ -103,7 +88,6 @@ public class WalletAccount extends AbstractAuditingEntity<Long> implements Seria
         final StringBuilder sb = new StringBuilder("WalletAccount{");
         sb.append("version=").append(version);
         sb.append(", id=").append(id);
-        sb.append(", userId=").append(userId);
         sb.append(", amount=").append(amount);
         sb.append(", currencyCode='").append(currencyCode).append('\'');
         sb.append('}');

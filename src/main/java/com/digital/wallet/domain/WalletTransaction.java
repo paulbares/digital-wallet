@@ -21,11 +21,10 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
     private Long id;
 
     /**
-     * Transaction Amount in Base Currency.
+     * The owner of the account
      */
-    @NotNull
-    @Column(name = "base_currency_amount", precision = 21, scale = 2)
-    private BigDecimal baseCurrencyAmount;
+    @Column(name = "customer_id", nullable = false)
+    private Long customerId;
 
     /**
      * Deposit Amount.
@@ -38,8 +37,8 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
      * Currency for Deposit Amount.
      */
     @NotNull
-    @Column(name = "currency", nullable = false)
-    private String currency;
+    @Column(name = "currency_code", nullable = false)
+    private String currencyCode;
 
     /**
      * Remarks.
@@ -60,14 +59,6 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
         this.id = id;
     }
 
-    public BigDecimal getBaseCurrencyAmount() {
-        return baseCurrencyAmount;
-    }
-
-    public void setBaseCurrencyAmount(BigDecimal baseCurrencyAmount) {
-        this.baseCurrencyAmount = baseCurrencyAmount;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
@@ -76,12 +67,12 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
         this.amount = amount;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
     public String getRemarks() {
@@ -92,6 +83,22 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
         this.remarks = remarks;
     }
 
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,26 +106,26 @@ public class WalletTransaction extends AbstractAuditingEntity<Long> implements S
         WalletTransaction that = (WalletTransaction) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(baseCurrencyAmount, that.baseCurrencyAmount) &&
             Objects.equals(amount, that.amount) &&
-            Objects.equals(currency, that.currency) &&
-            Objects.equals(remarks, that.remarks)
+            Objects.equals(currencyCode, that.currencyCode) &&
+            Objects.equals(remarks, that.remarks) &&
+            transactionType == that.transactionType
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, baseCurrencyAmount, amount, currency, remarks);
+        return Objects.hash(id, amount, currencyCode, remarks, transactionType);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("WalletTransaction{");
         sb.append("id=").append(id);
-        sb.append(", baseCurrencyAmount=").append(baseCurrencyAmount);
         sb.append(", amount=").append(amount);
-        sb.append(", currency='").append(currency).append('\'');
+        sb.append(", currencyCode='").append(currencyCode).append('\'');
         sb.append(", remarks='").append(remarks).append('\'');
+        sb.append(", transactionType=").append(transactionType);
         sb.append('}');
         return sb.toString();
     }
