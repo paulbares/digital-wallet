@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,7 @@ class DigitalWalletServiceIntTest {
     private WalletTransactionRepository transactionRepository;
 
     @Autowired
+    @Qualifier("SafeDigitalWalletService")
     private DigitalWalletService digitalWalletService;
 
     // Two customer ids...
@@ -173,9 +175,8 @@ class DigitalWalletServiceIntTest {
         for (int page = 0; page < pageSize; page++) {
             Page<WalletTransaction> paginatedTrxs = this.digitalWalletService.getTransactions(paulId, PageRequest.of(page, pageSize));
             Assertions.assertThat(paginatedTrxs.getSize()).isEqualTo(pageSize);
-            Iterator<WalletTransaction> iterator = paginatedTrxs.iterator();
-            while (iterator.hasNext()) {
-                checkWalletTransaction(iterator.next(), paulId, MINIMUM_DEPOSIT.add(new BigDecimal(i)), TransactionType.CREDIT);
+            for (WalletTransaction paginatedTrx : paginatedTrxs) {
+                checkWalletTransaction(paginatedTrx, paulId, MINIMUM_DEPOSIT.add(new BigDecimal(i)), TransactionType.CREDIT);
                 i++;
             }
         }
