@@ -15,6 +15,7 @@ public interface DigitalWalletService {
      * @param currency   the currency of the deposit. As per ISO 4217.
      *                   <a href="https://en.wikipedia.org/wiki/ISO_4217">https://en.wikipedia.org/wiki/ISO_4217</a>
      * @param amount     the amount to be deposited
+     * @param remark     a remark or description for the deposit
      */
     void executeDeposit(Long customerId, String currency, BigDecimal amount, String remark);
 

@@ -10,6 +10,7 @@ import com.digital.wallet.repository.WalletAccountRepository;
 import com.digital.wallet.repository.WalletTransactionRepository;
 import java.math.BigDecimal;
 import java.util.Iterator;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -180,6 +181,26 @@ class DigitalWalletServiceIntTest {
                 i++;
             }
         }
+    }
+
+    /**
+     * Make sure nothing happens if the customer does not exist
+     */
+    @Test
+    void testDepositWithdrawalUnknownCustomer() {
+        // Make sure it does not exist
+        long unknown = 11111111L;
+        Assertions.assertThat(this.accountRepository.findById(unknown).isPresent()).isFalse();
+
+        BigDecimal amount = new BigDecimal(10);
+        this.digitalWalletService.executeDeposit(unknown, currency, amount, "my first deposit");
+
+        List<WalletTransaction> all = this.transactionRepository.findAll();
+        Assertions.assertThat(all.size()).isEqualTo(0);
+
+        this.digitalWalletService.executeWithdrawal(unknown, currency, amount, "my first deposit");
+        all = this.transactionRepository.findAll();
+        Assertions.assertThat(all.size()).isEqualTo(0);
     }
 
     private void checkWalletAccount(Long customerId, BigDecimal amount) {

@@ -38,8 +38,8 @@ public class DigitalWalletServiceInternal implements DigitalWalletService {
                 }
                 account.setAmount(account.getAmount().add(amount));
                 this.accountRepository.save(account);
+                saveTrx(customerId, currency, amount, remark, TransactionType.CREDIT);
             });
-        saveTrx(customerId, currency, amount, remark, TransactionType.CREDIT);
     }
 
     private void checkDepositAmount(BigDecimal amount) {
@@ -61,8 +61,8 @@ public class DigitalWalletServiceInternal implements DigitalWalletService {
                 checkWithdrawalAmount(amount, account.getAmount());
                 account.setAmount(account.getAmount().subtract(amount));
                 this.accountRepository.save(account);
+                saveTrx(customerId, currency, amount, remark, TransactionType.DEBIT);
             });
-        saveTrx(customerId, currency, amount, remark, TransactionType.DEBIT);
     }
 
     private void checkWithdrawalAmount(BigDecimal amount, BigDecimal accountBalance) {
