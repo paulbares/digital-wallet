@@ -32,7 +32,7 @@ This application was generated using JHipster 8.1.0, you can find documentation 
 In order to build the server, you will need:
 
 - [Java JDK](https://www.oracle.com/java/) >= 17
-- [Apache Maven](http://maven.apache.org/) >= 3.8.5
+- [Apache Maven](https://maven.apache.org/) >= 3.8.5
 
 Optional (see below):
 
