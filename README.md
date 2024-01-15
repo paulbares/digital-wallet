@@ -10,7 +10,7 @@ Reader can focus on the following classes:
   and persists when required in the database the changes (cf. `WalletAccountRepository`, `WalletTransactionRepository`).
 - `SafeDigitalWalletService` an other implementation of `DigitalWalletService` that delegates every call to the actual
   and effective implementation (`DigitalWalletServiceInternal`) but that provides when necessary checks to prevent from
-- executing concurrent requests simultaneously for the same customer. It is done by using a striped lock from Google
+- executing concurrent requests simultaneously for the same customer. It is done by using a [striped lock](https://guava.dev/releases/snapshot/api/docs/com/google/common/util/concurrent/Striped.html) from Google
   guava library to allow independent operations (deposit & withdrawal for two different customers are independent) to
   lock different stripes and proceed concurrently while avoiding contention as mush as possible (it is not using a global lock)
 - `WalletAccountRepository` and `WalletAccount` are respectively the Spring Data JPA repository and the entity representing
